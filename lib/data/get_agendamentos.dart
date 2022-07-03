@@ -22,6 +22,7 @@ Future getAgendamentos(Cliente cliente) async {
       .from('Agendamento')
       .select()
       .filter('id', 'in', appointmentIDs)
+      .order('dataAgendamento', ascending: true)
       .execute();
 
   for (var appointment in response.data) {
