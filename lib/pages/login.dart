@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -15,11 +13,6 @@ class LoginState extends State<Login> {
   final _emailController = TextEditingController();
   final _senhaController = TextEditingController();
   late bool _senhaVisivel = false;
-
-  void cadastrarCliente() async {
-    final client = GetIt.instance<SupabaseClient>();
-
-  }
 
   @override
   void initState() {
