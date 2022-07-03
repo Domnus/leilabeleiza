@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:leilabeleiza/models/agendamento.dart';
 
 class Agendamento extends StatefulWidget {
-  const Agendamento({Key? key}) : super(key: key);
+  final Appointment agendamento;
+  const Agendamento({Key? key, required this.agendamento}) : super(key: key);
 
   @override
   State<Agendamento> createState() => _AgendamentoState();
@@ -51,9 +53,6 @@ class _AgendamentoState extends State<Agendamento> {
         );
       },
     );
-
-    print(dataEscolhida);
-    print(horarioEscolhido);
   }
 
   @override
@@ -67,13 +66,15 @@ class _AgendamentoState extends State<Agendamento> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text('Corte de cabelo'),
+                Text(widget.agendamento.titulo!),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    const Text('Horário: 14:30'),
+                    Text(widget.agendamento.dataAgendamento!),
+                    Text(widget.agendamento.horarioAgendamento!),
                     TextButton(
                         onPressed: () {
                           _showModal(context);

@@ -1,6 +1,9 @@
-class Agendamento {
+import 'package:flutter/material.dart';
+
+class Appointment {
   String? titulo;
   String? dataAgendamento;
+  String? horarioAgendamento;
 
-  Agendamento(this.titulo, this.dataAgendamento);
+  Appointment(this.titulo, this.dataAgendamento, this.horarioAgendamento);
 }

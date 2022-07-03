@@ -21,7 +21,7 @@ class CadastroState extends State<Cadastro> {
 
   Future<bool> cadastrarCliente() async {
     final client = GetIt.instance<SupabaseClient>();
-    final response = await client.from('Clientes').insert({
+    final response = await client.from('Cliente').insert({
       'nome': _nomeController.text,
       'email': _emailController.text,
       'senha': _senhaController.text
