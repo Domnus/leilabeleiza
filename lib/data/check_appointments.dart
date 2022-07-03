@@ -11,9 +11,9 @@ Future checkAppointments(Appointment appointment, Cliente cliente) async {
         DateTime.parse(agendamento.dataAgendamento!);
     DateTime dataAgendamentoNovo = DateTime.parse(appointment.dataAgendamento!);
 
-    if (dataAgendamentoNovo
+    if (dataAgendamentoExistente
         .add(const Duration(days: 7))
-        .isAfter(dataAgendamentoExistente)) {
+        .isAfter(dataAgendamentoNovo)) {
       return Appointment(appointment.id, appointment.titulo,
           dataAgendamentoExistente.toString(), agendamento.horarioAgendamento);
     }
