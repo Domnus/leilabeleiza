@@ -1,109 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
-import 'package:leilabeleiza/components/Agendamento.dart';
+import 'package:leilabeleiza/components/agendamento.dart';
+import 'package:leilabeleiza/data/get_agendamentos.dart';
+import 'package:leilabeleiza/data/logout.dart';
 import 'package:leilabeleiza/models/agendamento.dart';
 import 'package:leilabeleiza/models/cliente.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-
-Future _getAppointments(Cliente cliente) async {
-  List appointmentIDs = [];
-  List appointments = [];
-  final client = GetIt.instance<SupabaseClient>();
-
-  final agendamentos = await client
-      .from('AgendamentosCliente')
-      .select()
-      .eq('clienteID', cliente.clienteID)
-      .execute();
-
-
-  for (var appointment in agendamentos.data) {
-    appointmentIDs.add(appointment['agendamentoID']);
-  }
-
-  final response = await client.from('Agendamento').select().filter('id', 'in', appointmentIDs).execute();
-
-  for (var appointment in response.data) {
-    appointments.add(Appointment(appointment['id'], appointment['titulo'],
-        appointment['dataAgendamento'], appointment['horarioAgendamento']));
-  }
-
-  return Future.value(appointments);
-}
-
-Future<bool> _saveAgendamento(Appointment agendamento, Cliente cliente) async {
-  final client = GetIt.instance<SupabaseClient>();
-
-  final agendamentoResponse = await client.from('Agendamento').insert({
-    'titulo': agendamento.titulo,
-    'dataAgendamento': agendamento.dataAgendamento,
-    'horarioAgendamento': agendamento.horarioAgendamento
-  }).execute();
-
-  if (agendamentoResponse.hasError) {
-    return Future.value(false);
-  }
-
-  final dataAgendamento = agendamentoResponse.data;
-
-  final agendamentosResponse = await client.from('AgendamentosCliente').insert({
-    "agendamentoID": dataAgendamento[0]['id'],
-    "clienteID": cliente.clienteID
-  }).execute();
-
-  if (agendamentosResponse.hasError) {
-    return Future.value(false);
-  }
-
-  return Future.value(true);
-}
-
-_showDateDialog(context) async {
-  DateTime? dataEscolhida = await showDatePicker(
-    context: context,
-    initialDate: DateTime.now(),
-    firstDate: DateTime.now(),
-    lastDate: DateTime(2200),
-    builder: (context, child) {
-      return Theme(
-        data: Theme.of(context).copyWith(
-          colorScheme: ColorScheme.light(
-            primary: Theme.of(context).colorScheme.primary,
-          ),
-          dialogBackgroundColor: Colors.white,
-        ),
-        child: child!,
-      );
-    },
-  );
-
-  return dataEscolhida;
-}
-
-_showTimeDialog(context) async {
-  TimeOfDay? horarioEscolhido = await showTimePicker(
-    context: context,
-    initialTime: const TimeOfDay(hour: 00, minute: 00),
-    builder: (context, child) {
-      return Theme(
-        data: Theme.of(context).copyWith(
-          colorScheme: ColorScheme.light(
-            primary: Theme.of(context).colorScheme.primary,
-          ),
-          dialogBackgroundColor: Colors.white,
-        ),
-        child: child!,
-      );
-    },
-  );
-
-  return horarioEscolhido;
-}
+import '../components/date_modal.dart';
+import '../components/time_modal.dart';
+import '../data/save_agendamento.dart';
 
 class Home extends StatefulWidget {
-  final Cliente cliente;
-  const Home({Key? key, required this.cliente}) : super(key: key);
+  final Cliente? cliente;
+  const Home({Key? key, this.cliente}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -130,10 +38,20 @@ class _HomeState extends State<Home> {
               "Seus agendamentos",
               style: TextStyle(color: Colors.white),
             ),
+            actions: [
+              IconButton(
+                  onPressed: () async {
+                    await logout(context);
+                  },
+                  icon: const Icon(
+                    Icons.logout,
+                    color: Colors.white,
+                  ))
+            ],
           ),
           body: FutureBuilder(
             initialData: const [],
-            future: _getAppointments(widget.cliente),
+            future: getAgendamentos(widget.cliente!),
             builder: (context, snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.none:
@@ -195,7 +113,7 @@ class _HomeState extends State<Home> {
             onPressed: () async {
               await showDialog(
                   context: context,
-                  builder: (_) => Modal(cliente: widget.cliente));
+                  builder: (_) => Modal(cliente: widget.cliente!));
               setState(() {});
             },
             shape: RoundedRectangleBorder(
@@ -277,7 +195,8 @@ class _ModalState extends State<Modal> {
                     ),
                   ),
                   onTap: () async {
-                    DateTime selecionado = await _showDateDialog(context);
+                    DateTime selecionado =
+                        await showDateDialog(context, DateTime.now());
 
                     setState(() {
                       _dateSelected = selecionado;
@@ -306,7 +225,8 @@ class _ModalState extends State<Modal> {
                   ),
                 ),
                 onTap: () async {
-                  TimeOfDay selecionado = await _showTimeDialog(context);
+                  TimeOfDay selecionado =
+                      await showTimeDialog(context, TimeOfDay.now());
 
                   setState(() {
                     _timeSelected = selecionado;
@@ -331,34 +251,31 @@ class _ModalState extends State<Modal> {
                 .parse("${_timeSelected!.hour}:${_timeSelected!.minute}");
             var format = DateFormat("h:mm a");
 
-            bool res = await _saveAgendamento(
+            bool res = await saveAgendamento(
               Appointment(null, _tituloController.text,
                   _dateSelected.toString(), format.format(tempTime).toString()),
               widget.cliente,
             );
 
+            if (!mounted) return;
+
             if (res) {
-              // ignore: use_build_context_synchronously
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text(
                   'Agendamento realizado com sucesso!',
                   style:
-                      // ignore: use_build_context_synchronously
                       TextStyle(color: Theme.of(context).colorScheme.secondary),
                 ),
                 duration: const Duration(milliseconds: 1500),
               ));
 
-              // ignore: use_build_context_synchronously
               Navigator.pop(context);
             } else {
-              // ignore: use_build_context_synchronously
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
                     'Ocorreu um erro! Tente novamente mais tarde.',
                     style: TextStyle(
-                        // ignore: use_build_context_synchronously
                         color: Theme.of(context).colorScheme.secondary),
                   ),
                   duration: const Duration(milliseconds: 1500),

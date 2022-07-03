@@ -1,71 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
+import 'package:leilabeleiza/components/time_modal.dart';
 import 'package:leilabeleiza/models/agendamento.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-
-Future<bool> _updateAgendamento(Appointment agendamento) async {
-  final client = GetIt.instance<SupabaseClient>();
-
-  final response = await client
-      .from('Agendamento')
-      .update({
-        'dataAgendamento': agendamento.dataAgendamento,
-        'horarioAgendamento': agendamento.horarioAgendamento
-      })
-      .eq('id', agendamento.id)
-      .execute();
-
-  if (response.hasError) {
-    return Future.value(false);
-  }
-
-  return Future.value(true);
-}
-
-_showDateDialog(context, DateTime dataAgendamento) async {
-  DateTime? dataEscolhida = await showDatePicker(
-    context: context,
-    initialDate: dataAgendamento,
-    firstDate: DateTime.now(),
-    lastDate: DateTime(2200),
-    builder: (context, child) {
-      return Theme(
-        data: Theme.of(context).copyWith(
-          colorScheme: ColorScheme.light(
-            primary: Theme.of(context).colorScheme.primary,
-          ),
-          dialogBackgroundColor: Colors.white,
-        ),
-        child: child!,
-      );
-    },
-  );
-
-  return dataEscolhida;
-}
-
-_showTimeDialog(context, TimeOfDay horaAgendamento) async {
-  TimeOfDay? horarioEscolhido = await showTimePicker(
-    context: context,
-    initialTime: horaAgendamento,
-    builder: (context, child) {
-      return Theme(
-        data: Theme.of(context).copyWith(
-          colorScheme: ColorScheme.light(
-            primary: Theme.of(context).colorScheme.primary,
-          ),
-          dialogBackgroundColor: Colors.white,
-        ),
-        child: child!,
-      );
-    },
-  );
-
-  return horarioEscolhido;
-}
+import '../data/update_agendamento.dart';
+import 'date_modal.dart';
 
 class Agendamento extends StatefulWidget {
   final Appointment agendamento;
@@ -152,7 +90,7 @@ class _UpdateModalState extends State<UpdateModal> {
 
     return AlertDialog(
       backgroundColor: Colors.white,
-      title: const Text("Criar agendamento"),
+      title: const Text("Atualizar agendamento"),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -175,7 +113,7 @@ class _UpdateModalState extends State<UpdateModal> {
                     ),
                   ),
                   onTap: () async {
-                    DateTime selecionado = await _showDateDialog(context,
+                    DateTime selecionado = await showDateDialog(context,
                         DateTime.parse(widget.agendamento.dataAgendamento!));
 
                     setState(() {
@@ -198,7 +136,7 @@ class _UpdateModalState extends State<UpdateModal> {
                 ),
                 onTap: () async {
                   TimeOfDay selecionado =
-                      await _showTimeDialog(context, TimeOfDay.now());
+                      await showTimeDialog(context, TimeOfDay.now());
 
                   setState(() {
                     _timeSelected = selecionado;
@@ -219,7 +157,7 @@ class _UpdateModalState extends State<UpdateModal> {
         TextButton(
           child: const Text("Adicionar"),
           onPressed: () async {
-            bool res = await _updateAgendamento(
+            bool res = await updateAgendamento(
               Appointment(
                 widget.agendamento.id,
                 '',

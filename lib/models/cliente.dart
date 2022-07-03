@@ -1,5 +1,3 @@
-import '../components/Agendamento.dart';
-
 class Cliente {
   int? clienteID;
   String? nome;

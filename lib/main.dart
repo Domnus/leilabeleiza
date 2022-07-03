@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:leilabeleiza/pages/cadastro.dart';
+import 'package:leilabeleiza/pages/extract_client.dart';
 import 'package:leilabeleiza/pages/home.dart';
 import 'package:leilabeleiza/pages/login.dart';
 import 'package:leilabeleiza/themes/main_theme.dart';
@@ -25,9 +26,9 @@ Future<void> main() async {
       SupabaseClient(supabaseUrl, supabaseKey));
 
   final prefs = await SharedPreferences.getInstance();
-  final bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+  final bool? isLoggedIn = prefs.getBool('isLoggedIn');
 
-  if (isLoggedIn) {
+  if (isLoggedIn != null) {
     String? email = prefs.getString('email');
     String? senha = prefs.getString('senha');
     final response = await connect(email!, senha!);
@@ -40,6 +41,7 @@ Future<void> main() async {
           initialRoute: '/home',
           routes: {
             '/': (context) => const Login(),
+            '/extractCliente': (context) => const ExtractClient(),
             '/cadastro': (context) => const Cadastro(),
             '/home': (context) => Home(cliente: response)
           },
@@ -54,6 +56,7 @@ Future<void> main() async {
       initialRoute: '/',
       routes: {
         '/': (context) => const Login(),
+        '/extractCliente': (context) => const ExtractClient(),
         '/cadastro': (context) => const Cadastro(),
         '/home': (context) => Home(cliente: Cliente(null, null, null))
       },

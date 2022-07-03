@@ -1,8 +1,6 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import '../data/cadastrar_cliente.dart';
 
 class Cadastro extends StatefulWidget {
   const Cadastro({Key? key}) : super(key: key);
@@ -18,21 +16,6 @@ class CadastroState extends State<Cadastro> {
   final _emailController = TextEditingController();
   final _senhaController = TextEditingController();
   late bool _senhaVisivel = false;
-
-  Future<bool> cadastrarCliente() async {
-    final client = GetIt.instance<SupabaseClient>();
-    final response = await client.from('Cliente').insert({
-      'nome': _nomeController.text,
-      'email': _emailController.text,
-      'senha': _senhaController.text
-    }).execute();
-
-    if (response.error != null) {
-      return Future.value(false);
-    }
-
-    return Future.value(true);
-  }
 
   @override
   void initState() {
@@ -76,11 +59,14 @@ class CadastroState extends State<Cadastro> {
                             Column(
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 8, 0, 8),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text('Nome',
                                           style: TextStyle(
@@ -99,17 +85,20 @@ class CadastroState extends State<Cadastro> {
                                         cursorColor: Colors.white,
                                         decoration: InputDecoration(
                                           hintText: 'Bento Carlos',
-                                          hintStyle:
-                                              const TextStyle(color: Colors.white70),
+                                          hintStyle: const TextStyle(
+                                              color: Colors.white70),
                                           enabledBorder: UnderlineInputBorder(
                                             borderSide: BorderSide(
                                                 color: Theme.of(context)
                                                     .colorScheme
                                                     .secondary,
                                                 width: 2),
-                                            borderRadius: const BorderRadius.only(
-                                                topLeft: Radius.circular(4.0),
-                                                topRight: Radius.circular(4.0)),
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                                    topLeft:
+                                                        Radius.circular(4.0),
+                                                    topRight:
+                                                        Radius.circular(4.0)),
                                           ),
                                           focusedBorder: UnderlineInputBorder(
                                             borderSide: BorderSide(
@@ -117,7 +106,8 @@ class CadastroState extends State<Cadastro> {
                                                     .colorScheme
                                                     .secondary,
                                                 width: 2),
-                                            borderRadius: const BorderRadius.only(
+                                            borderRadius:
+                                                const BorderRadius.only(
                                               topLeft: Radius.circular(4.0),
                                               topRight: Radius.circular(4.0),
                                             ),
@@ -128,11 +118,14 @@ class CadastroState extends State<Cadastro> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 8, 0, 8),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text('Email',
                                           style: TextStyle(
@@ -151,17 +144,20 @@ class CadastroState extends State<Cadastro> {
                                         cursorColor: Colors.white,
                                         decoration: InputDecoration(
                                           hintText: 'bcsilva49@gmail.com',
-                                          hintStyle:
-                                              const TextStyle(color: Colors.white70),
+                                          hintStyle: const TextStyle(
+                                              color: Colors.white70),
                                           enabledBorder: UnderlineInputBorder(
                                             borderSide: BorderSide(
                                                 color: Theme.of(context)
                                                     .colorScheme
                                                     .secondary,
                                                 width: 2),
-                                            borderRadius: const BorderRadius.only(
-                                                topLeft: Radius.circular(4.0),
-                                                topRight: Radius.circular(4.0)),
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                                    topLeft:
+                                                        Radius.circular(4.0),
+                                                    topRight:
+                                                        Radius.circular(4.0)),
                                           ),
                                           focusedBorder: UnderlineInputBorder(
                                             borderSide: BorderSide(
@@ -169,7 +165,8 @@ class CadastroState extends State<Cadastro> {
                                                     .colorScheme
                                                     .secondary,
                                                 width: 2),
-                                            borderRadius: const BorderRadius.only(
+                                            borderRadius:
+                                                const BorderRadius.only(
                                               topLeft: Radius.circular(4.0),
                                               topRight: Radius.circular(4.0),
                                             ),
@@ -180,9 +177,11 @@ class CadastroState extends State<Cadastro> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 8, 0, 8),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         'Senha',
@@ -204,8 +203,8 @@ class CadastroState extends State<Cadastro> {
                                                 .secondary),
                                         decoration: InputDecoration(
                                           hintText: '●●●●●●●●●●●●●●●',
-                                          hintStyle:
-                                              const TextStyle(color: Colors.white70),
+                                          hintStyle: const TextStyle(
+                                              color: Colors.white70),
                                           suffixIcon: IconButton(
                                             icon: Icon(
                                                 _senhaVisivel
@@ -217,7 +216,8 @@ class CadastroState extends State<Cadastro> {
                                             onPressed: () {
                                               setState(
                                                 () {
-                                                  _senhaVisivel = !_senhaVisivel;
+                                                  _senhaVisivel =
+                                                      !_senhaVisivel;
                                                 },
                                               );
                                             },
@@ -229,7 +229,8 @@ class CadastroState extends State<Cadastro> {
                                                   .secondary,
                                               width: 2,
                                             ),
-                                            borderRadius: const BorderRadius.only(
+                                            borderRadius:
+                                                const BorderRadius.only(
                                               topLeft: Radius.circular(4.0),
                                               topRight: Radius.circular(4.0),
                                             ),
@@ -241,7 +242,8 @@ class CadastroState extends State<Cadastro> {
                                                   .secondary,
                                               width: 2,
                                             ),
-                                            borderRadius: const BorderRadius.only(
+                                            borderRadius:
+                                                const BorderRadius.only(
                                               topLeft: Radius.circular(4.0),
                                               topRight: Radius.circular(4.0),
                                             ),
@@ -262,16 +264,20 @@ class CadastroState extends State<Cadastro> {
                                         'google.com');
                                     if (result.isNotEmpty &&
                                         result[0].rawAddress.isNotEmpty) {
-                                      bool result = await cadastrarCliente();
+                                      bool result = await cadastrarCliente(
+                                        _nomeController.text,
+                                        _emailController.text,
+                                        _senhaController.text,
+                                      );
+
+                                      if (!mounted) return;
 
                                       if (result) {
-                                        // ignore: use_build_context_synchronously
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(SnackBar(
                                           content: Text(
                                               'Cadastro realizado com sucesso!',
                                               style: TextStyle(
-                                                  // ignore: use_build_context_synchronously
                                                   color: Theme.of(context)
                                                       .colorScheme
                                                       .secondary)),
@@ -279,16 +285,13 @@ class CadastroState extends State<Cadastro> {
                                               milliseconds: 1500),
                                         ));
 
-                                        // ignore: use_build_context_synchronously
                                         Navigator.pushNamed(context, '/');
                                       } else {
-                                        // ignore: use_build_context_synchronously
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(SnackBar(
                                           content: Text(
                                               'Ocorreu um erro! Tente novamente mais tarde.',
                                               style: TextStyle(
-                                                  // ignore: use_build_context_synchronously
                                                   color: Theme.of(context)
                                                       .colorScheme
                                                       .secondary)),

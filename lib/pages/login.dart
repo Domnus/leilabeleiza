@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import 'package:leilabeleiza/models/cliente.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-
 import '../data/connect.dart';
+import '../models/cliente.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -183,6 +180,8 @@ class LoginState extends State<Login> {
                               width: MediaQuery.of(context).size.width,
                               child: ElevatedButton(
                                 onPressed: () async {
+                                  if (!mounted) return;
+
                                   final prefs =
                                       await SharedPreferences.getInstance();
 
@@ -192,20 +191,25 @@ class LoginState extends State<Login> {
 
                                   if (response != false) {
                                     await prefs.setBool('isLoggedIn', true);
-                                    await prefs.setString('email', _emailController.text);
-                                    await prefs.setString('senha', _senhaController.text);
-                                    // ignore: use_build_context_synchronously
+                                    await prefs.setString(
+                                        'email', _emailController.text);
+                                    await prefs.setString(
+                                        'senha', _senhaController.text);
+
+                                    if (!mounted) return;
                                     Navigator.pushReplacementNamed(
-                                        context, '/home',
-                                        arguments: response);
+                                      context,
+                                      '/extractCliente',
+                                      arguments: response,
+                                    );
                                   }
-                                  // ignore: use_build_context_synchronously
+
+                                  if (!mounted) return;
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text(
                                         response,
                                         style: TextStyle(
-                                            // ignore: use_build_context_synchronously
                                             color: Theme.of(context)
                                                 .colorScheme
                                                 .secondary),
