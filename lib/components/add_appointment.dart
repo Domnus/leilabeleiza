@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/Material.dart';
 import 'package:intl/intl.dart';
 import 'package:leilabeleiza/components/time_modal.dart';
@@ -24,16 +26,19 @@ class _AddAppointmentState extends State<AddAppointment> {
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: Colors.white,
-      title: const Text("Criar agendamento"),
+      title: const Center(child: Text("Criar agendamento")),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Column(
             children: [
-              const Text('Título',
-                  style: TextStyle(
-                    fontSize: 20,
-                  )),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text('Título',
+                    style: TextStyle(
+                      fontSize: 20,
+                    )),
+              ),
               TextFormField(
                 controller: _tituloController,
                 obscureText: false,
@@ -41,7 +46,8 @@ class _AddAppointmentState extends State<AddAppointment> {
                 decoration: InputDecoration(
                   isDense: true,
                   contentPadding: const EdgeInsets.all(8),
-                  hintText: 'Pintura de cabelo',
+                  hintText: 'Corte de cabelo',
+                  hintStyle: const TextStyle(color: Colors.grey),
                   enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                           color: Theme.of(context).colorScheme.primary,
@@ -60,18 +66,26 @@ class _AddAppointmentState extends State<AddAppointment> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               InkWell(
-                  child: Container(
-                    margin: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Theme.of(context).colorScheme.primary,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        const Text("Data"),
+                        Container(
+                          margin: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              borderRadius: BorderRadius.circular(2)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Text(DateFormat('d/M/y')
+                                .format(_dateSelected!)
+                                .toString()),
+                          ),
                         ),
-                        borderRadius: BorderRadius.circular(2)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Text(DateFormat('d/M/y')
-                          .format(_dateSelected!)
-                          .toString()),
+                      ],
                     ),
                   ),
                   onTap: () async {
@@ -83,25 +97,33 @@ class _AddAppointmentState extends State<AddAppointment> {
                     });
                   }),
               InkWell(
-                child: Container(
-                  margin: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Theme.of(context).colorScheme.primary,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      const Text("Horário"),
+                      Container(
+                        margin: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                            borderRadius: BorderRadius.circular(2)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Text(DateFormat('H:m')
+                              .format(
+                                DateTime(
+                                    _dateSelected!.year,
+                                    _dateSelected!.month,
+                                    _dateSelected!.day,
+                                    _timeSelected!.hour,
+                                    _timeSelected!.minute),
+                              )
+                              .toString()),
+                        ),
                       ),
-                      borderRadius: BorderRadius.circular(2)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Text(DateFormat('H:m')
-                        .format(
-                          DateTime(
-                              _dateSelected!.year,
-                              _dateSelected!.month,
-                              _dateSelected!.day,
-                              _timeSelected!.hour,
-                              _timeSelected!.minute),
-                        )
-                        .toString()),
+                    ],
                   ),
                 ),
                 onTap: () async {

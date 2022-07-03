@@ -35,14 +35,17 @@ class _AgendamentoState extends State<Agendamento> {
 
     final horaCrua = widget.agendamento.horarioAgendamento?.split(":");
     final horaProcessada = TimeOfDay(
-        hour: int.parse(horaCrua![0]), minute: int.parse(horaCrua[1]));
-    final String horaFormatada = "${horaProcessada.hour}:${horaProcessada.minute} ${horaProcessada.period.name.toUpperCase()}";
+      hour: int.parse(horaCrua![0]),
+      minute: int.parse(horaCrua[1]),
+    );
+    final String horaFormatada =
+        "${horaProcessada.hour}:${horaProcessada.minute} ${horaProcessada.period.name.toUpperCase()}";
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
           decoration: BoxDecoration(
-              border: Border.all(color: Colors.blueAccent),
+              border: Border.all(color: Theme.of(context).colorScheme.primary),
               borderRadius: BorderRadius.circular(10)),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -50,7 +53,10 @@ class _AgendamentoState extends State<Agendamento> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text("ID: ${widget.agendamento.id}"),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("ID: ${widget.agendamento.id}", style: const TextStyle(fontWeight: FontWeight.bold),),
+                ),
                 Text(widget.agendamento.titulo!),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
