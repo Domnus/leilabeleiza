@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:leilabeleiza/models/cliente.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../data/connect.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -43,8 +49,10 @@ class LoginState extends State<Login> {
                   children: [
                     const Padding(
                       padding: EdgeInsets.all(16),
-                      child: Text('Cabeleleila Leila',
-                          style: TextStyle(color: Colors.white, fontSize: 32)),
+                      child: Text(
+                        'Cabeleleila Leila',
+                        style: TextStyle(color: Colors.white, fontSize: 32),
+                      ),
                     ),
                     Expanded(
                       child: SizedBox(
@@ -74,7 +82,7 @@ class LoginState extends State<Login> {
                                           .secondary),
                                   cursorColor: Colors.white,
                                   decoration: InputDecoration(
-                                    hintText: 'roberto_seiti@example.com',
+                                    hintText: 'bcsilva49@gmail.com',
                                     hintStyle:
                                         const TextStyle(color: Colors.white70),
                                     enabledBorder: UnderlineInputBorder(
@@ -174,9 +182,38 @@ class LoginState extends State<Login> {
                             SizedBox(
                               width: MediaQuery.of(context).size.width,
                               child: ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pushReplacementNamed(
-                                      context, '/home');
+                                onPressed: () async {
+                                  final prefs =
+                                      await SharedPreferences.getInstance();
+
+                                  var response = await connect(
+                                      _emailController.text,
+                                      _senhaController.text);
+
+                                  if (response != false) {
+                                    await prefs.setBool('isLoggedIn', true);
+                                    await prefs.setString('email', _emailController.text);
+                                    await prefs.setString('senha', _senhaController.text);
+                                    // ignore: use_build_context_synchronously
+                                    Navigator.pushReplacementNamed(
+                                        context, '/home',
+                                        arguments: response);
+                                  }
+                                  // ignore: use_build_context_synchronously
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        response,
+                                        style: TextStyle(
+                                            // ignore: use_build_context_synchronously
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary),
+                                      ),
+                                      duration:
+                                          const Duration(milliseconds: 1500),
+                                    ),
+                                  );
                                 },
                                 style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all<

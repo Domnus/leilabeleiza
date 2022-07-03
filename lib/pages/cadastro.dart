@@ -70,172 +70,185 @@ class CadastroState extends State<Cadastro> {
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width * 0.75,
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Column(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Nome',
-                                    style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary,
-                                      fontSize: 28,
-                                    )),
-                                TextField(
-                                  controller: _nomeController,
-                                  obscureText: false,
-                                  style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary),
-                                  cursorColor: Colors.white,
-                                  decoration: InputDecoration(
-                                    hintText: 'Bento Carlos',
-                                    hintStyle:
-                                        const TextStyle(color: Colors.white70),
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .secondary,
-                                          width: 2),
-                                      borderRadius: const BorderRadius.only(
-                                          topLeft: Radius.circular(4.0),
-                                          topRight: Radius.circular(4.0)),
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .secondary,
-                                          width: 2),
-                                      borderRadius: const BorderRadius.only(
-                                        topLeft: Radius.circular(4.0),
-                                        topRight: Radius.circular(4.0),
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Nome',
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary,
+                                            fontSize: 28,
+                                          )),
+                                      TextField(
+                                        controller: _nomeController,
+                                        obscureText: false,
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary),
+                                        cursorColor: Colors.white,
+                                        decoration: InputDecoration(
+                                          hintText: 'Bento Carlos',
+                                          hintStyle:
+                                              const TextStyle(color: Colors.white70),
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .secondary,
+                                                width: 2),
+                                            borderRadius: const BorderRadius.only(
+                                                topLeft: Radius.circular(4.0),
+                                                topRight: Radius.circular(4.0)),
+                                          ),
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .secondary,
+                                                width: 2),
+                                            borderRadius: const BorderRadius.only(
+                                              topLeft: Radius.circular(4.0),
+                                              topRight: Radius.circular(4.0),
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                    ],
                                   ),
                                 ),
-                              ],
-                            ),
-                            Column(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('Email',
-                                    style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary,
-                                      fontSize: 28,
-                                    )),
-                                TextField(
-                                  controller: _emailController,
-                                  obscureText: false,
-                                  style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary),
-                                  cursorColor: Colors.white,
-                                  decoration: InputDecoration(
-                                    hintText: 'bcsilva49@gmail.com',
-                                    hintStyle:
-                                        const TextStyle(color: Colors.white70),
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .secondary,
-                                          width: 2),
-                                      borderRadius: const BorderRadius.only(
-                                          topLeft: Radius.circular(4.0),
-                                          topRight: Radius.circular(4.0)),
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .secondary,
-                                          width: 2),
-                                      borderRadius: const BorderRadius.only(
-                                        topLeft: Radius.circular(4.0),
-                                        topRight: Radius.circular(4.0),
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Email',
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary,
+                                            fontSize: 28,
+                                          )),
+                                      TextField(
+                                        controller: _emailController,
+                                        obscureText: false,
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary),
+                                        cursorColor: Colors.white,
+                                        decoration: InputDecoration(
+                                          hintText: 'bcsilva49@gmail.com',
+                                          hintStyle:
+                                              const TextStyle(color: Colors.white70),
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .secondary,
+                                                width: 2),
+                                            borderRadius: const BorderRadius.only(
+                                                topLeft: Radius.circular(4.0),
+                                                topRight: Radius.circular(4.0)),
+                                          ),
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .secondary,
+                                                width: 2),
+                                            borderRadius: const BorderRadius.only(
+                                              topLeft: Radius.circular(4.0),
+                                              topRight: Radius.circular(4.0),
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                    ],
                                   ),
                                 ),
-                              ],
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Senha',
-                                  style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary,
-                                      fontSize: 28),
-                                ),
-                                TextField(
-                                  controller: _senhaController,
-                                  obscureText: !_senhaVisivel,
-                                  enableSuggestions: false,
-                                  autocorrect: false,
-                                  cursorColor: Colors.white,
-                                  style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary),
-                                  decoration: InputDecoration(
-                                    hintText: '●●●●●●●●●●●●●●●',
-                                    hintStyle:
-                                        const TextStyle(color: Colors.white70),
-                                    suffixIcon: IconButton(
-                                      icon: Icon(
-                                          _senhaVisivel
-                                              ? Icons.visibility
-                                              : Icons.visibility_off,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .secondary),
-                                      onPressed: () {
-                                        setState(
-                                          () {
-                                            _senhaVisivel = !_senhaVisivel;
-                                          },
-                                        );
-                                      },
-                                    ),
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .secondary,
-                                        width: 2,
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Senha',
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary,
+                                            fontSize: 28),
                                       ),
-                                      borderRadius: const BorderRadius.only(
-                                        topLeft: Radius.circular(4.0),
-                                        topRight: Radius.circular(4.0),
+                                      TextField(
+                                        controller: _senhaController,
+                                        obscureText: !_senhaVisivel,
+                                        enableSuggestions: false,
+                                        autocorrect: false,
+                                        cursorColor: Colors.white,
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary),
+                                        decoration: InputDecoration(
+                                          hintText: '●●●●●●●●●●●●●●●',
+                                          hintStyle:
+                                              const TextStyle(color: Colors.white70),
+                                          suffixIcon: IconButton(
+                                            icon: Icon(
+                                                _senhaVisivel
+                                                    ? Icons.visibility
+                                                    : Icons.visibility_off,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .secondary),
+                                            onPressed: () {
+                                              setState(
+                                                () {
+                                                  _senhaVisivel = !_senhaVisivel;
+                                                },
+                                              );
+                                            },
+                                          ),
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary,
+                                              width: 2,
+                                            ),
+                                            borderRadius: const BorderRadius.only(
+                                              topLeft: Radius.circular(4.0),
+                                              topRight: Radius.circular(4.0),
+                                            ),
+                                          ),
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary,
+                                              width: 2,
+                                            ),
+                                            borderRadius: const BorderRadius.only(
+                                              topLeft: Radius.circular(4.0),
+                                              topRight: Radius.circular(4.0),
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .secondary,
-                                        width: 2,
-                                      ),
-                                      borderRadius: const BorderRadius.only(
-                                        topLeft: Radius.circular(4.0),
-                                        topRight: Radius.circular(4.0),
-                                      ),
-                                    ),
+                                    ],
                                   ),
                                 ),
                               ],
@@ -252,11 +265,13 @@ class CadastroState extends State<Cadastro> {
                                       bool result = await cadastrarCliente();
 
                                       if (result) {
+                                        // ignore: use_build_context_synchronously
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(SnackBar(
                                           content: Text(
                                               'Cadastro realizado com sucesso!',
                                               style: TextStyle(
+                                                  // ignore: use_build_context_synchronously
                                                   color: Theme.of(context)
                                                       .colorScheme
                                                       .secondary)),
@@ -264,13 +279,16 @@ class CadastroState extends State<Cadastro> {
                                               milliseconds: 1500),
                                         ));
 
+                                        // ignore: use_build_context_synchronously
                                         Navigator.pushNamed(context, '/');
                                       } else {
+                                        // ignore: use_build_context_synchronously
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(SnackBar(
                                           content: Text(
                                               'Ocorreu um erro! Tente novamente mais tarde.',
                                               style: TextStyle(
+                                                  // ignore: use_build_context_synchronously
                                                   color: Theme.of(context)
                                                       .colorScheme
                                                       .secondary)),

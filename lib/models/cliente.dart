@@ -1,9 +1,9 @@
 import '../components/Agendamento.dart';
 
 class Cliente {
+  int? clienteID;
   String? nome;
   String? email;
-  List<Agendamento>? agendamentos;
 
-  Cliente(this.nome, this.email, this.agendamentos);
+  Cliente(this.clienteID, this.nome, this.email);
 }

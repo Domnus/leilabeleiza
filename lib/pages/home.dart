@@ -3,13 +3,26 @@ import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:leilabeleiza/components/Agendamento.dart';
 import 'package:leilabeleiza/models/agendamento.dart';
+import 'package:leilabeleiza/models/cliente.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-Future _getAppointments() async {
+Future _getAppointments(Cliente cliente) async {
+  List appointmentIDs = [];
   List appointments = [];
   final client = GetIt.instance<SupabaseClient>();
 
-  final response = await client.from('Agendamento').select().execute();
+  final agendamentos = await client
+      .from('AgendamentosCliente')
+      .select()
+      .eq('clienteID', cliente.clienteID)
+      .execute();
+
+
+  for (var appointment in agendamentos.data) {
+    appointmentIDs.add(appointment['agendamentoID']);
+  }
+
+  final response = await client.from('Agendamento').select().filter('id', 'in', appointmentIDs).execute();
 
   for (var appointment in response.data) {
     appointments.add(Appointment(appointment['id'], appointment['titulo'],
@@ -19,16 +32,27 @@ Future _getAppointments() async {
   return Future.value(appointments);
 }
 
-Future<bool> _saveAgendamento(Appointment agendamento) async {
+Future<bool> _saveAgendamento(Appointment agendamento, Cliente cliente) async {
   final client = GetIt.instance<SupabaseClient>();
 
-  final response = await client.from('Agendamento').insert({
+  final agendamentoResponse = await client.from('Agendamento').insert({
     'titulo': agendamento.titulo,
     'dataAgendamento': agendamento.dataAgendamento,
     'horarioAgendamento': agendamento.horarioAgendamento
   }).execute();
 
-  if (response.hasError) {
+  if (agendamentoResponse.hasError) {
+    return Future.value(false);
+  }
+
+  final dataAgendamento = agendamentoResponse.data;
+
+  final agendamentosResponse = await client.from('AgendamentosCliente').insert({
+    "agendamentoID": dataAgendamento[0]['id'],
+    "clienteID": cliente.clienteID
+  }).execute();
+
+  if (agendamentosResponse.hasError) {
     return Future.value(false);
   }
 
@@ -78,7 +102,8 @@ _showTimeDialog(context) async {
 }
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  final Cliente cliente;
+  const Home({Key? key, required this.cliente}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -108,7 +133,7 @@ class _HomeState extends State<Home> {
           ),
           body: FutureBuilder(
             initialData: const [],
-            future: _getAppointments(),
+            future: _getAppointments(widget.cliente),
             builder: (context, snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.none:
@@ -168,7 +193,9 @@ class _HomeState extends State<Home> {
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
-              await showDialog(context: context, builder: (_) => const Modal());
+              await showDialog(
+                  context: context,
+                  builder: (_) => Modal(cliente: widget.cliente));
               setState(() {});
             },
             shape: RoundedRectangleBorder(
@@ -184,7 +211,8 @@ class _HomeState extends State<Home> {
 }
 
 class Modal extends StatefulWidget {
-  const Modal({Key? key}) : super(key: key);
+  final Cliente cliente;
+  const Modal({Key? key, required this.cliente}) : super(key: key);
 
   @override
   State<Modal> createState() => _ModalState();
@@ -306,6 +334,7 @@ class _ModalState extends State<Modal> {
             bool res = await _saveAgendamento(
               Appointment(null, _tituloController.text,
                   _dateSelected.toString(), format.format(tempTime).toString()),
+              widget.cliente,
             );
 
             if (res) {
