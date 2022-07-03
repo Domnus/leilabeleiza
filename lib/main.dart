@@ -8,22 +8,28 @@ import 'package:leilabeleiza/pages/login.dart';
 import 'package:leilabeleiza/themes/main_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'data/connect.dart';
 import 'models/cliente.dart';
 
 Future<void> main() async {
+  await dotenv.load();
+
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
-
-  const supabaseUrl = "https://hdluhckhlzyipafrjczm.supabase.co";
-  const supabaseKey =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhkbHVoY2tobHp5aXBhZnJqY3ptIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTY3OTIxMzMsImV4cCI6MTk3MjM2ODEzM30.QzwpI0XzdkgzIRFQb3uDXPvQ38-c5-BJ4LPiaw_t5Qs';
+    [
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.portraitUp,
+    ],
+  );
 
   GetIt getIt = GetIt.instance;
   getIt.registerSingleton<SupabaseClient>(
-      SupabaseClient(supabaseUrl, supabaseKey));
+    SupabaseClient(
+      dotenv.env['SUPABASE_URL']!,
+      dotenv.env['SUPABASE_KEY']!,
+    ),
+  );
 
   final prefs = await SharedPreferences.getInstance();
   final bool? isLoggedIn = prefs.getBool('isLoggedIn');
