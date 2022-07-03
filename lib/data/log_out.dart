@@ -1,7 +1,7 @@
 import 'package:flutter/Material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-logout(BuildContext context) async {
+Future logOut(BuildContext context) async {
   final prefs = await SharedPreferences.getInstance();
 
   prefs.setBool('isLoggedIn', false);

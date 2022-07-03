@@ -32,12 +32,12 @@ Future<void> main() async {
   );
 
   final prefs = await SharedPreferences.getInstance();
-  final bool? isLoggedIn = prefs.getBool('isLoggedIn');
+  final bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
 
-  if (isLoggedIn != null) {
-    String? email = prefs.getString('email');
-    String? senha = prefs.getString('senha');
-    final response = await connect(email!, senha!);
+  if (isLoggedIn) {
+    String email = prefs.getString('email') ?? '';
+    String senha = prefs.getString('senha') ?? '';
+    final response = await connect(email, senha);
 
     if (response != null) {
       runApp(

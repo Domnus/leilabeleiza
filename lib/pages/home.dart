@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:leilabeleiza/components/add_appointment.dart';
 import 'package:leilabeleiza/components/agendamento.dart';
 import 'package:leilabeleiza/data/get_agendamentos.dart';
-import 'package:leilabeleiza/data/logout.dart';
+import 'package:leilabeleiza/data/log_out.dart';
 import 'package:leilabeleiza/models/cliente.dart';
 
 class Home extends StatefulWidget {
@@ -37,7 +37,7 @@ class _HomeState extends State<Home> {
             actions: [
               IconButton(
                   onPressed: () async {
-                    await logout(context);
+                    await logOut(context);
                   },
                   icon: const Icon(
                     Icons.logout,

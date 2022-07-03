@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../data/connect.dart';
+import '../data/sign_in.dart';
+import '../models/cliente.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -179,44 +179,35 @@ class LoginState extends State<Login> {
                               width: MediaQuery.of(context).size.width,
                               child: ElevatedButton(
                                 onPressed: () async {
+                                  Cliente? cliente = await signIn(
+                                    context,
+                                    _emailController.text,
+                                    _senhaController.text,
+                                  );
+
                                   if (!mounted) return;
-
-                                  final prefs =
-                                      await SharedPreferences.getInstance();
-
-                                  var response = await connect(
-                                      _emailController.text,
-                                      _senhaController.text);
-
-                                  if (response != false) {
-                                    await prefs.setBool('isLoggedIn', true);
-                                    await prefs.setString(
-                                        'email', _emailController.text);
-                                    await prefs.setString(
-                                        'senha', _senhaController.text);
-
-                                    if (!mounted) return;
+                                  if (cliente != null) {
                                     Navigator.pushReplacementNamed(
                                       context,
                                       '/extractCliente',
-                                      arguments: response,
+                                      arguments: cliente,
+                                    );
+                                  } else {
+                                    if (!mounted) return;
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          'Ocorreu um erro! Tente novamente mais tarde.',
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary),
+                                        ),
+                                        duration:
+                                            const Duration(milliseconds: 1500),
+                                      ),
                                     );
                                   }
-
-                                  if (!mounted) return;
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        response,
-                                        style: TextStyle(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .secondary),
-                                      ),
-                                      duration:
-                                          const Duration(milliseconds: 1500),
-                                    ),
-                                  );
                                 },
                                 style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all<

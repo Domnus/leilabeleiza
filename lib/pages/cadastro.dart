@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:leilabeleiza/data/sign_in.dart';
 import '../data/cadastrar_cliente.dart';
+import '../models/cliente.dart';
 
 class Cadastro extends StatefulWidget {
   const Cadastro({Key? key}) : super(key: key);
@@ -261,7 +263,8 @@ class CadastroState extends State<Cadastro> {
                                 onPressed: () async {
                                   try {
                                     final result = await InternetAddress.lookup(
-                                        'google.com');
+                                      'google.com',
+                                    );
                                     if (result.isNotEmpty &&
                                         result[0].rawAddress.isNotEmpty) {
                                       bool result = await cadastrarCliente(
@@ -271,8 +274,15 @@ class CadastroState extends State<Cadastro> {
                                       );
 
                                       if (!mounted) return;
-
                                       if (result) {
+                                        Cliente? cliente = await signIn(
+                                          context,
+                                          _emailController.text,
+                                          _senhaController.text,
+                                        );
+
+                                        if (!mounted) return;
+                                        if (cliente != null) {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(SnackBar(
                                           content: Text(
@@ -284,8 +294,12 @@ class CadastroState extends State<Cadastro> {
                                           duration: const Duration(
                                               milliseconds: 1500),
                                         ));
-
-                                        Navigator.pushNamed(context, '/');
+                                          Navigator.pushReplacementNamed(
+                                            context,
+                                            '/extractCliente',
+                                            arguments: cliente,
+                                          );
+                                        }
                                       } else {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(SnackBar(

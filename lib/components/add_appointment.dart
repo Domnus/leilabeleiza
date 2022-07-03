@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/Material.dart';
 import 'package:intl/intl.dart';
 import 'package:leilabeleiza/components/time_modal.dart';
