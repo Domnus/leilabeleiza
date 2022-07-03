@@ -18,10 +18,14 @@ class AddAppointment extends StatefulWidget {
 class _AddAppointmentState extends State<AddAppointment> {
   final TextEditingController _tituloController = TextEditingController();
   DateTime? _dateSelected = DateTime.now();
-  TimeOfDay? _timeSelected = const TimeOfDay(hour: 00, minute: 00);
+  TimeOfDay? _timeSelected = TimeOfDay.now();
 
   @override
   Widget build(BuildContext context) {
+    String dataFormatada =
+        DateFormat('d/M/y').format(_dateSelected!).toString();
+    String horaFormatada = "${_timeSelected!.hour}:${_timeSelected!.minute}";
+
     return AlertDialog(
       backgroundColor: Colors.white,
       title: const Center(child: Text("Criar agendamento")),
@@ -77,11 +81,8 @@ class _AddAppointmentState extends State<AddAppointment> {
                               ),
                               borderRadius: BorderRadius.circular(2)),
                           child: Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: Text(DateFormat('d/M/y')
-                                .format(_dateSelected!)
-                                .toString()),
-                          ),
+                              padding: const EdgeInsets.all(8),
+                              child: Text(dataFormatada)),
                         ),
                       ],
                     ),
@@ -109,16 +110,7 @@ class _AddAppointmentState extends State<AddAppointment> {
                             borderRadius: BorderRadius.circular(2)),
                         child: Padding(
                           padding: const EdgeInsets.all(8),
-                          child: Text(DateFormat('H:m')
-                              .format(
-                                DateTime(
-                                    _dateSelected!.year,
-                                    _dateSelected!.month,
-                                    _dateSelected!.day,
-                                    _timeSelected!.hour,
-                                    _timeSelected!.minute),
-                              )
-                              .toString()),
+                          child: Text(horaFormatada),
                         ),
                       ),
                     ],
@@ -151,8 +143,12 @@ class _AddAppointmentState extends State<AddAppointment> {
                 .parse("${_timeSelected!.hour}:${_timeSelected!.minute}");
             var format = DateFormat("h:mm a");
 
-            Appointment agendamento = Appointment(null, _tituloController.text,
-                _dateSelected.toString(), format.format(tempTime).toString());
+            Appointment agendamento = Appointment(
+              null,
+              _tituloController.text,
+              _dateSelected.toString(),
+              format.format(tempTime).toString(),
+            );
 
             var check = await checkAppointments(agendamento, widget.cliente);
 
@@ -239,6 +235,7 @@ class _AddAppointmentState extends State<AddAppointment> {
               ));
 
               Navigator.pop(context);
+
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(

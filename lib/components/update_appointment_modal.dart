@@ -16,11 +16,15 @@ class UpdateAppointmentModal extends StatefulWidget {
 }
 
 class _UpdateAppointmentModalState extends State<UpdateAppointmentModal> {
-  DateTime? _dateSelected = DateTime.now();
-  TimeOfDay? _timeSelected = const TimeOfDay(hour: 00, minute: 00);
-
   @override
   Widget build(BuildContext context) {
+    DateTime? dateSelected =
+        DateTime.parse(widget.agendamento.dataAgendamento!);
+
+    final horaCrua = widget.agendamento.horarioAgendamento?.split(":");
+    TimeOfDay? timeSelected = TimeOfDay(
+        hour: int.parse(horaCrua![0]), minute: int.parse(horaCrua[1]));
+
     return AlertDialog(
       backgroundColor: Colors.white,
       title: const Center(child: Text("Atualizar agendamento")),
@@ -46,7 +50,7 @@ class _UpdateAppointmentModalState extends State<UpdateAppointmentModal> {
                           child: Padding(
                             padding: const EdgeInsets.all(8),
                             child: Text(DateFormat('d/M/y')
-                                .format(_dateSelected!)
+                                .format(dateSelected)
                                 .toString()),
                           ),
                         ),
@@ -54,11 +58,11 @@ class _UpdateAppointmentModalState extends State<UpdateAppointmentModal> {
                     ),
                   ),
                   onTap: () async {
-                    DateTime selecionado = await showDateDialog(context,
-                        DateTime.parse(widget.agendamento.dataAgendamento!));
+                    DateTime selecionado =
+                        await showDateDialog(context, dateSelected!);
 
                     setState(() {
-                      _dateSelected = selecionado;
+                      dateSelected = selecionado;
                     });
                   }),
               InkWell(
@@ -74,18 +78,18 @@ class _UpdateAppointmentModalState extends State<UpdateAppointmentModal> {
                           borderRadius: BorderRadius.circular(2)),
                       child: Padding(
                         padding: const EdgeInsets.all(8),
-                        child: Text(
-                            "${_timeSelected!.hour}:${_timeSelected!.minute}"),
+                        child:
+                            Text("${timeSelected.hour}:${timeSelected.minute}"),
                       ),
                     ),
                   ],
                 ),
                 onTap: () async {
                   TimeOfDay selecionado =
-                      await showTimeDialog(context, TimeOfDay.now());
+                      await showTimeDialog(context, timeSelected!);
 
                   setState(() {
-                    _timeSelected = selecionado;
+                    timeSelected = selecionado;
                   });
                 },
               ),
@@ -107,14 +111,14 @@ class _UpdateAppointmentModalState extends State<UpdateAppointmentModal> {
               Appointment(
                 widget.agendamento.id,
                 '',
-                _dateSelected.toString(),
+                dateSelected.toString(),
                 DateFormat.jm().format(
                   DateTime(
-                    _dateSelected!.year,
-                    _dateSelected!.month,
-                    _dateSelected!.day,
-                    _timeSelected!.hour,
-                    _timeSelected!.minute,
+                    dateSelected!.year,
+                    dateSelected!.month,
+                    dateSelected!.day,
+                    timeSelected!.hour,
+                    timeSelected!.minute,
                   ),
                 ),
               ),

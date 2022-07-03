@@ -55,7 +55,10 @@ class _AgendamentoState extends State<Agendamento> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text("ID: ${widget.agendamento.id}", style: const TextStyle(fontWeight: FontWeight.bold),),
+                  child: Text(
+                    "ID: ${widget.agendamento.id}",
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
                 Text(widget.agendamento.titulo!),
                 Row(
@@ -100,10 +103,7 @@ class _AgendamentoState extends State<Agendamento> {
                                   });
                             }
                           : () async {
-                              await showDialog(
-                                  context: context,
-                                  builder: (_) => UpdateAppointmentModal(
-                                      agendamento: widget.agendamento));
+                              await showDialog(context: context, builder: (_) => UpdateAppointmentModal(agendamento: widget.agendamento));
                               setState(() {});
                             },
                       child: Text(
