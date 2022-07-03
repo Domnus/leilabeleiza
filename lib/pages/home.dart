@@ -12,7 +12,7 @@ Future _getAppointments() async {
   final response = await client.from('Agendamento').select().execute();
 
   for (var appointment in response.data) {
-    appointments.add(Appointment(appointment['titulo'],
+    appointments.add(Appointment(appointment['id'], appointment['titulo'],
         appointment['dataAgendamento'], appointment['horarioAgendamento']));
   }
 
@@ -100,9 +100,12 @@ class _HomeState extends State<Home> {
         child: Scaffold(
           backgroundColor: Theme.of(context).colorScheme.secondary,
           appBar: AppBar(
-              automaticallyImplyLeading: false,
-              title: const Text("Seus agendamentos",
-                  style: TextStyle(color: Colors.white))),
+            automaticallyImplyLeading: false,
+            title: const Text(
+              "Seus agendamentos",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
           body: FutureBuilder(
             initialData: const [],
             future: _getAppointments(),
@@ -128,12 +131,23 @@ class _HomeState extends State<Home> {
                 case ConnectionState.done:
                   List? agendamentos = snapshot.data as List?;
 
-                  if (agendamentos!.isEmpty) {
-                    return Center(
-                      child: Column(children: const [
-                        Text("Nenhum agendamento encontrado!"),
-                        Text("Clique no botão abaixo para fazer o seu primeiro agendamento!")
-                      ]),
+                  if (agendamentos == null || agendamentos.isEmpty) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: const [
+                            Text("Nenhum agendamento encontrado!",
+                                style: TextStyle(fontSize: 20)),
+                            Text("Clique no botão abaixo para fazer o",
+                                style: TextStyle(fontSize: 20)),
+                            Text("seu primeiro agendamento!",
+                                style: TextStyle(fontSize: 20))
+                          ],
+                        ),
+                      ),
                     );
                   } else {
                     return ListView.builder(
@@ -290,27 +304,32 @@ class _ModalState extends State<Modal> {
             var format = DateFormat("h:mm a");
 
             bool res = await _saveAgendamento(
-              Appointment(_tituloController.text, _dateSelected.toString(),
-                  format.format(tempTime).toString()),
+              Appointment(null, _tituloController.text,
+                  _dateSelected.toString(), format.format(tempTime).toString()),
             );
 
             if (res) {
+              // ignore: use_build_context_synchronously
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text(
                   'Agendamento realizado com sucesso!',
                   style:
+                      // ignore: use_build_context_synchronously
                       TextStyle(color: Theme.of(context).colorScheme.secondary),
                 ),
                 duration: const Duration(milliseconds: 1500),
               ));
 
+              // ignore: use_build_context_synchronously
               Navigator.pop(context);
             } else {
+              // ignore: use_build_context_synchronously
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
                     'Ocorreu um erro! Tente novamente mais tarde.',
                     style: TextStyle(
+                        // ignore: use_build_context_synchronously
                         color: Theme.of(context).colorScheme.secondary),
                   ),
                   duration: const Duration(milliseconds: 1500),
