@@ -1,5 +1,6 @@
 import 'package:flutter/Material.dart';
 import 'package:intl/intl.dart';
+import 'package:leilabeleiza/components/mensagem_SnackBar.dart';
 import 'package:leilabeleiza/components/time_modal.dart';
 import '../data/check_appointments.dart';
 import '../data/save_agendamento.dart';
@@ -225,27 +226,15 @@ class _AddAppointmentState extends State<AddAppointment> {
             if (!mounted) return;
 
             if (res) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(
-                  'Agendamento realizado com sucesso!',
-                  style:
-                      TextStyle(color: Theme.of(context).colorScheme.secondary),
-                ),
-                duration: const Duration(milliseconds: 1500),
-              ));
+              ScaffoldMessenger.of(context).showSnackBar(
+                mensagemSnackBar(context, 'Agendamento realizado com sucesso!')
+              );
 
               Navigator.pop(context);
 
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    'Ocorreu um erro! Tente novamente mais tarde.',
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.secondary),
-                  ),
-                  duration: const Duration(milliseconds: 1500),
-                ),
+                mensagemSnackBar(context, 'Ocorreu um erro! Tente novamente mais tarde.')
               );
             }
           },

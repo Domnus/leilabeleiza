@@ -1,10 +1,12 @@
 import 'package:flutter/Material.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:leilabeleiza/components/time_modal.dart';
 
 import '../data/update_agendamento.dart';
 import '../models/agendamento.dart';
 import 'date_modal.dart';
+import 'mensagem_SnackBar.dart';
 
 class UpdateAppointmentModal extends StatefulWidget {
   final Appointment agendamento;
@@ -16,15 +18,21 @@ class UpdateAppointmentModal extends StatefulWidget {
 }
 
 class _UpdateAppointmentModalState extends State<UpdateAppointmentModal> {
+  DateTime dateSelected = DateTime.now();
+  TimeOfDay timeSelected = TimeOfDay.now();
+
   @override
-  Widget build(BuildContext context) {
-    DateTime? dateSelected =
-        DateTime.parse(widget.agendamento.dataAgendamento!);
+  void initState() {
+    dateSelected = DateTime.parse(widget.agendamento.dataAgendamento!);
 
     final horaCrua = widget.agendamento.horarioAgendamento?.split(":");
-    TimeOfDay? timeSelected = TimeOfDay(
+    timeSelected = TimeOfDay(
         hour: int.parse(horaCrua![0]), minute: int.parse(horaCrua[1]));
+    super.initState();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: Colors.white,
       title: const Center(child: Text("Atualizar agendamento")),
@@ -59,7 +67,7 @@ class _UpdateAppointmentModalState extends State<UpdateAppointmentModal> {
                   ),
                   onTap: () async {
                     DateTime selecionado =
-                        await showDateDialog(context, dateSelected!);
+                        await showDateDialog(context, dateSelected);
 
                     setState(() {
                       dateSelected = selecionado;
@@ -86,7 +94,7 @@ class _UpdateAppointmentModalState extends State<UpdateAppointmentModal> {
                 ),
                 onTap: () async {
                   TimeOfDay selecionado =
-                      await showTimeDialog(context, timeSelected!);
+                      await showTimeDialog(context, timeSelected);
 
                   setState(() {
                     timeSelected = selecionado;
@@ -107,47 +115,32 @@ class _UpdateAppointmentModalState extends State<UpdateAppointmentModal> {
         TextButton(
           child: const Text("Adicionar"),
           onPressed: () async {
-            bool res = await updateAgendamento(
-              Appointment(
-                widget.agendamento.id,
-                '',
-                dateSelected.toString(),
-                DateFormat.jm().format(
-                  DateTime(
-                    dateSelected!.year,
-                    dateSelected!.month,
-                    dateSelected!.day,
-                    timeSelected!.hour,
-                    timeSelected!.minute,
-                  ),
+            Appointment agendamento = Appointment(
+              widget.agendamento.id,
+              '',
+              dateSelected.toString(),
+              DateFormat.jm().format(
+                DateTime(
+                  dateSelected.year,
+                  dateSelected.month,
+                  dateSelected.day,
+                  timeSelected.hour,
+                  timeSelected.minute,
                 ),
               ),
             );
 
-            if (!mounted) return;
+            bool res = await updateAgendamento(agendamento);
 
+            if (!mounted) return;
             if (res) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(
-                  'Agendamento realizado com sucesso!',
-                  style:
-                      TextStyle(color: Theme.of(context).colorScheme.secondary),
-                ),
-                duration: const Duration(milliseconds: 1500),
-              ));
+              ScaffoldMessenger.of(context).showSnackBar(mensagemSnackBar(
+                  context, 'Agendamento atualizado com sucesso!'));
 
               Navigator.pop(context);
             } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    'Ocorreu um erro! Tente novamente mais tarde.',
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.secondary),
-                  ),
-                  duration: const Duration(milliseconds: 1500),
-                ),
-              );
+              ScaffoldMessenger.of(context).showSnackBar(mensagemSnackBar(
+                  context, 'Ocorreu um erro! Tente novamente mais tarde.'));
             }
           },
         ),

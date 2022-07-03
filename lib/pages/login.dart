@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:leilabeleiza/components/mensagem_SnackBar.dart';
 import '../data/sign_in.dart';
 import '../models/cliente.dart';
 
@@ -52,6 +53,7 @@ class LoginState extends State<Login> {
                     ),
                     Expanded(
                       child: SizedBox(
+                        height: MediaQuery.of(context).size.height,
                         width: MediaQuery.of(context).size.width * 0.75,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -179,6 +181,13 @@ class LoginState extends State<Login> {
                               width: MediaQuery.of(context).size.width,
                               child: ElevatedButton(
                                 onPressed: () async {
+                                  if (_emailController.text.isEmpty ||
+                                      _senhaController.text.isEmpty) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        mensagemSnackBar(context,
+                                            'Insira os valores para fazer login!'));
+                                  }
+
                                   Cliente? cliente = await signIn(
                                     context,
                                     _emailController.text,
@@ -195,17 +204,7 @@ class LoginState extends State<Login> {
                                   } else {
                                     if (!mounted) return;
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          'Ocorreu um erro! Tente novamente mais tarde.',
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .secondary),
-                                        ),
-                                        duration:
-                                            const Duration(milliseconds: 1500),
-                                      ),
+                                      mensagemSnackBar(context, 'Ocorreu um erro! Tente novamente mais tarde.')
                                     );
                                   }
                                 },
