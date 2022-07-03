@@ -28,6 +28,16 @@ class _AgendamentoState extends State<Agendamento> {
     bool buttonDisabled = daquiDoisDias.isAfter(dataAgendamento) ||
         daquiDoisDias.isAtSameMomentAs(dataAgendamento);
 
+    final ano = DateTime.parse(widget.agendamento.dataAgendamento!).year;
+    final mes = DateTime.parse(widget.agendamento.dataAgendamento!).month;
+    final dia = DateTime.parse(widget.agendamento.dataAgendamento!).day;
+    final String dataFormatada = "$dia/$mes/$ano";
+
+    final horaCrua = widget.agendamento.horarioAgendamento?.split(":");
+    final horaProcessada = TimeOfDay(
+        hour: int.parse(horaCrua![0]), minute: int.parse(horaCrua[1]));
+    final String horaFormatada = "${horaProcessada.hour}:${horaProcessada.minute} ${horaProcessada.period.name.toUpperCase()}";
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -45,8 +55,8 @@ class _AgendamentoState extends State<Agendamento> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text(widget.agendamento.dataAgendamento!),
-                    Text(widget.agendamento.horarioAgendamento!),
+                    Text(dataFormatada),
+                    Text(horaFormatada),
                     TextButton(
                       onPressed: buttonDisabled
                           ? () {
