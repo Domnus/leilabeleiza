@@ -5,7 +5,7 @@ import '../models/cliente.dart';
 
 Future getAgendamentos(Cliente cliente) async {
   List appointmentIDs = [];
-  List appointments = [];
+  List<Appointment> appointments = [];
   final client = GetIt.instance<SupabaseClient>();
 
   final agendamentos = await client
