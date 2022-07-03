@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../data/connect.dart';
-import '../models/cliente.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
