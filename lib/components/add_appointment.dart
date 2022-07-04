@@ -22,10 +22,16 @@ class _AddAppointmentState extends State<AddAppointment> {
   TimeOfDay? _timeSelected = TimeOfDay.now();
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    String dataFormatada =
-        DateFormat('d/M/y').format(_dateSelected!).toString();
-    String horaFormatada = "${_timeSelected!.hour}:${_timeSelected!.minute}";
+    String dataFormatada = DateFormat('d/M/y').format(_dateSelected!).toString();
+    int hora = _timeSelected!.hour;
+    int minuto = _timeSelected!.minute;
+    String horaFormatada = "${hora >= 10 ? hora.toString() : "0$hora"}:${minuto>= 10 ? minuto.toString() : "0$minuto"}";
 
     return AlertDialog(
       backgroundColor: Colors.white,
@@ -118,7 +124,7 @@ class _AddAppointmentState extends State<AddAppointment> {
                   ),
                 ),
                 onTap: () async {
-                  TimeOfDay selecionado =
+                  TimeOfDay? selecionado =
                       await showTimeDialog(context, TimeOfDay.now());
 
                   setState(() {
@@ -140,15 +146,19 @@ class _AddAppointmentState extends State<AddAppointment> {
         TextButton(
           child: const Text("Adicionar"),
           onPressed: () async {
-            DateTime tempTime = DateFormat("hh:mm")
-                .parse("${_timeSelected!.hour}:${_timeSelected!.minute}");
-            var format = DateFormat("h:mm a");
-
             Appointment agendamento = Appointment(
               null,
               _tituloController.text,
               _dateSelected.toString(),
-              format.format(tempTime).toString(),
+              DateFormat.jm().format(
+                DateTime(
+                  _dateSelected!.year,
+                  _dateSelected!.month,
+                  _dateSelected!.day,
+                  _timeSelected!.hour,
+                  _timeSelected!.minute,
+                ),
+              ),
             );
 
             var check = await checkAppointments(agendamento, widget.cliente);
@@ -226,16 +236,13 @@ class _AddAppointmentState extends State<AddAppointment> {
             if (!mounted) return;
 
             if (res) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                mensagemSnackBar(context, 'Agendamento realizado com sucesso!')
-              );
+              ScaffoldMessenger.of(context).showSnackBar(mensagemSnackBar(
+                  context, 'Agendamento realizado com sucesso!'));
 
               Navigator.pop(context);
-
             } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                mensagemSnackBar(context, 'Ocorreu um erro! Tente novamente mais tarde.')
-              );
+              ScaffoldMessenger.of(context).showSnackBar(mensagemSnackBar(
+                  context, 'Ocorreu um erro! Tente novamente mais tarde.'));
             }
           },
         ),

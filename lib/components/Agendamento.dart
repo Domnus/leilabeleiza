@@ -38,8 +38,7 @@ class _AgendamentoState extends State<Agendamento> {
       hour: int.parse(horaCrua![0]),
       minute: int.parse(horaCrua[1]),
     );
-    final String horaFormatada =
-        "${horaProcessada.hour}:${horaProcessada.minute} ${horaProcessada.period.name.toUpperCase()}";
+    final String horaFormatada = "${horaProcessada.hour >= 10 ? horaProcessada.hour.toString() : "0${horaProcessada.hour}"}:${horaProcessada.minute >= 10 ? horaProcessada.minute.toString() : "0${horaProcessada.minute}"} ${horaProcessada.period.name.toUpperCase()}";
 
     return Padding(
       padding: const EdgeInsets.all(8.0),

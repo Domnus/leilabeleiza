@@ -20,19 +20,22 @@ class UpdateAppointmentModal extends StatefulWidget {
 class _UpdateAppointmentModalState extends State<UpdateAppointmentModal> {
   DateTime dateSelected = DateTime.now();
   TimeOfDay timeSelected = TimeOfDay.now();
+  String horaFormatada = '';
 
   @override
   void initState() {
     dateSelected = DateTime.parse(widget.agendamento.dataAgendamento!);
-
     final horaCrua = widget.agendamento.horarioAgendamento?.split(":");
     timeSelected = TimeOfDay(
         hour: int.parse(horaCrua![0]), minute: int.parse(horaCrua[1]));
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    horaFormatada = "${timeSelected.hour >= 10 ? timeSelected.hour.toString() : "0${timeSelected.hour}"}:${timeSelected.minute >= 10 ? timeSelected.minute.toString() : "0${timeSelected.minute}"}";
+
     return AlertDialog(
       backgroundColor: Colors.white,
       title: const Center(child: Text("Atualizar agendamento")),
@@ -86,8 +89,7 @@ class _UpdateAppointmentModalState extends State<UpdateAppointmentModal> {
                           borderRadius: BorderRadius.circular(2)),
                       child: Padding(
                         padding: const EdgeInsets.all(8),
-                        child:
-                            Text("${timeSelected.hour}:${timeSelected.minute}"),
+                        child: Text(horaFormatada),
                       ),
                     ),
                   ],
