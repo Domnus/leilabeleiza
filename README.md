@@ -40,6 +40,11 @@ Para rodar em modo de produção.
 
 Depois disso é só esperar e o app será instalado no seu dispositivo!
 
+# Screenshots
+<img src="/screenshots/Screenshot_1656938706.png" width=200/> <img src="/screenshots/Screenshot_1656938775.png" width=200/> <img src="/screenshots/Screenshot_1656938779.png" width=200/> <img src="/screenshots/Screenshot_1656938869.png" width=200/>
+
+Mais screenshots [aqui](/screenshots)
+
 # Licença
 
 [**MIT**](LICENSE.md)
