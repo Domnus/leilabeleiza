@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-showDateDialog(context, DateTime dataAgendamento) async {
+Future<DateTime?> showDateDialog(context, DateTime dataAgendamento) async {
   DateTime? dataEscolhida = await showDatePicker(
     context: context,
     initialDate: dataAgendamento,

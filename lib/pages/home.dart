@@ -109,10 +109,12 @@ class _HomeState extends State<Home> {
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () async {
+                if (widget.cliente != null) {
                 await showDialog(
                     context: context,
-                    builder: (_) => AddAppointment(cliente: widget.cliente!));
+                    builder: (_) => AddAppointment(cliente: widget.cliente as Cliente));
                 setState(() {});
+                }
               },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(50),

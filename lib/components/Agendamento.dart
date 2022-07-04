@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:leilabeleiza/components/aviso.dart';
-import 'package:leilabeleiza/components/button.dart';
 import 'package:leilabeleiza/components/update_appointment_modal.dart';
 import 'package:leilabeleiza/models/agendamento.dart';
 

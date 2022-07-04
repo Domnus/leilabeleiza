@@ -99,11 +99,13 @@ class _AddAppointmentState extends State<AddAppointment> {
                     ),
                   ),
                   onTap: () async {
-                    DateTime selecionado =
+                    DateTime? selecionado =
                         await showDateDialog(context, DateTime.now());
 
                     setState(() {
-                      _dateSelected = selecionado;
+                      if (selecionado != null) {
+                        _dateSelected = selecionado;
+                      }
                     });
                   }),
               InkWell(
@@ -132,7 +134,9 @@ class _AddAppointmentState extends State<AddAppointment> {
                       await showTimeDialog(context, TimeOfDay.now());
 
                   setState(() {
-                    _timeSelected = selecionado;
+                    if (selecionado != null) {
+                      _timeSelected = selecionado;
+                    }
                   });
                 },
               ),

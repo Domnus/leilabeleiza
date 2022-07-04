@@ -71,11 +71,13 @@ class _UpdateAppointmentModalState extends State<UpdateAppointmentModal> {
                     ),
                   ),
                   onTap: () async {
-                    DateTime selecionado =
+                    DateTime? selecionado =
                         await showDateDialog(context, dateSelected);
 
                     setState(() {
-                      dateSelected = selecionado;
+                      if (selecionado != null) {
+                        dateSelected = selecionado;
+                      }
                     });
                   }),
               InkWell(
@@ -97,11 +99,13 @@ class _UpdateAppointmentModalState extends State<UpdateAppointmentModal> {
                   ],
                 ),
                 onTap: () async {
-                  TimeOfDay selecionado =
+                  TimeOfDay? selecionado =
                       await showTimeDialog(context, timeSelected);
 
                   setState(() {
-                    timeSelected = selecionado;
+                    if (selecionado != null) {
+                      timeSelected = selecionado;
+                    }
                   });
                 },
               ),

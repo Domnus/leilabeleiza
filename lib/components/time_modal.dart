@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-showTimeDialog(context, TimeOfDay horaAgendamento) async {
+Future<TimeOfDay?> showTimeDialog(context, TimeOfDay horaAgendamento) async {
   TimeOfDay? horarioEscolhido = await showTimePicker(
     context: context,
     initialTime: horaAgendamento,
