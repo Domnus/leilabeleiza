@@ -10,7 +10,7 @@ Como banco de dados foi utilizado o projeto [Supabase](https://supabase.com/) qu
 
 # Como rodar
 
-Para rodar o projeto você precisa ter o Flutter instalado. Caso não você ainda não tenha instalado o Flutter, [aqui tem um guia de instalação](https://docs.flutter.dev/get-started/install).
+Para rodar o projeto você precisa ter o Flutter instalado. Caso você ainda não tenha instalado o Flutter, [aqui tem um guia de instalação](https://docs.flutter.dev/get-started/install).
 
 Após ter instalado o Flutter, clone o projeto:
 ```
