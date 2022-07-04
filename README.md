@@ -1,16 +1,41 @@
-# leilabeleiza
+leilabeleiza
 
-A new Flutter project.
+App de agendamento de serviços para um salão de cabeleireiro.
 
-## Getting Started
+# Sobre
 
-This project is a starting point for a Flutter application.
+O app foi feito utilizando o framework [Flutter](https://flutter.dev/).
 
-A few resources to get you started if this is your first Flutter project:
+Como banco de dados foi utilizado o projeto [Supabase](https://supabase.com/) que contém um banco de dados Postgres em nuvem.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+# Como rodar
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Para rodar o projeto você precisa ter o Flutter instalado. Caso não você ainda não tenha instalado o Flutter, [aqui tem um guia de instalação](https://docs.flutter.dev/get-started/install).
+
+Após ter instalado o Flutter, abra um terminal e digite o seguinte comando:
+
+```
+flutter pub get
+```
+
+Esse comando instala as dependências necessárias para o projeto rodar.
+
+Depois de instaladas as dependências, é só 'buildar' o projeto, com o seguinte comando:
+
+```
+flutter run
+```
+
+Para rodar em modo de debug, ou:
+
+```
+flutter run --release
+```
+
+Para rodar em modo de produção.
+
+Depois disso é só esperar e o app será instalado no seu dispositivo!
+
+# Licença
+
+[**MIT**](LICENSE.md)
