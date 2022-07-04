@@ -85,7 +85,7 @@ class _AgendamentoState extends State<Agendamento> {
                           ? () {
                               null;
                               aviso(context,
-                                  'Você só pode alterar um serviço com 2 dias de antecedência.\nCaso queira alterar a data nos contacte por telefone.');
+                                  'Você só pode alterar um serviço com até 2 dias de antecedência.\nCaso queira alterar a data ou horário nos contacte por telefone.');
                             }
                           : () async {
                               await showDialog(
