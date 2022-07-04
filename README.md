@@ -1,19 +1,23 @@
-leilabeleiza
+# leilabeleiza
 
 App de agendamento de serviços para um salão de cabeleireiro.
 
-# Sobre
+# Sobre
 
 O app foi feito utilizando o framework [Flutter](https://flutter.dev/).
 
 Como banco de dados foi utilizado o projeto [Supabase](https://supabase.com/) que contém um banco de dados Postgres em nuvem.
 
-# Como rodar
+# Como rodar
 
 Para rodar o projeto você precisa ter o Flutter instalado. Caso não você ainda não tenha instalado o Flutter, [aqui tem um guia de instalação](https://docs.flutter.dev/get-started/install).
 
-Após ter instalado o Flutter, abra um terminal e digite o seguinte comando:
+Após ter instalado o Flutter, clone o projeto:
+```
+git clone https://github.com/Domnus/leilabeleiza.git
+```
 
+Abra um terminal dentro da pasta do projeto e digite o seguinte comando:
 ```
 flutter pub get
 ```
@@ -36,6 +40,6 @@ Para rodar em modo de produção.
 
 Depois disso é só esperar e o app será instalado no seu dispositivo!
 
-# Licença
+# Licença
 
 [**MIT**](LICENSE.md)
