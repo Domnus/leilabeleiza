@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:leilabeleiza/components/aviso.dart';
+import 'package:leilabeleiza/components/button.dart';
 import 'package:leilabeleiza/components/update_appointment_modal.dart';
 import 'package:leilabeleiza/models/agendamento.dart';
 
@@ -38,7 +40,8 @@ class _AgendamentoState extends State<Agendamento> {
       hour: int.parse(horaCrua![0]),
       minute: int.parse(horaCrua[1]),
     );
-    final String horaFormatada = "${horaProcessada.hour >= 10 ? horaProcessada.hour.toString() : "0${horaProcessada.hour}"}:${horaProcessada.minute >= 10 ? horaProcessada.minute.toString() : "0${horaProcessada.minute}"} ${horaProcessada.period.name.toUpperCase()}";
+    final String horaFormatada =
+        "${horaProcessada.hour >= 10 ? horaProcessada.hour.toString() : "0${horaProcessada.hour}"}:${horaProcessada.minute >= 10 ? horaProcessada.minute.toString() : "0${horaProcessada.minute}"} ${horaProcessada.period.name.toUpperCase()}";
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -66,50 +69,36 @@ class _AgendamentoState extends State<Agendamento> {
                     Text(dataFormatada),
                     Text(horaFormatada),
                     TextButton(
+                      style: ButtonStyle(
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        side: MaterialStateProperty.all<BorderSide>(
+                          BorderSide(
+                              color: Theme.of(context).colorScheme.primary),
+                        ),
+                      ),
                       onPressed: buttonDisabled
                           ? () {
                               null;
-                              showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: const Text(
-                                        "Aviso",
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                      content: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Text(
-                                            "Você só pode alterar um serviço com 2 dias de antecedência.\nCaso queira alterar a data nos contacte por telefone.",
-                                            textAlign: TextAlign.justify,
-                                            style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .primary),
-                                          ),
-                                        ],
-                                      ),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: const Text("OK"),
-                                        )
-                                      ],
-                                    );
-                                  });
+                              aviso(context,
+                                  'Você só pode alterar um serviço com 2 dias de antecedência.\nCaso queira alterar a data nos contacte por telefone.');
                             }
                           : () async {
-                              await showDialog(context: context, builder: (_) => UpdateAppointmentModal(agendamento: widget.agendamento));
+                              await showDialog(
+                                  context: context,
+                                  builder: (_) => UpdateAppointmentModal(
+                                      agendamento: widget.agendamento));
                               setState(() {});
                             },
                       child: Text(
                         'Editar data',
                         style: buttonDisabled
                             ? const TextStyle(color: Colors.grey)
-                            : null,
+                            : const TextStyle(color: Colors.black),
                       ),
                     ),
                   ],

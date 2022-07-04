@@ -5,6 +5,7 @@ import 'package:leilabeleiza/components/time_modal.dart';
 
 import '../data/update_agendamento.dart';
 import '../models/agendamento.dart';
+import 'button.dart';
 import 'date_modal.dart';
 import 'mensagem_SnackBar.dart';
 
@@ -34,7 +35,8 @@ class _UpdateAppointmentModalState extends State<UpdateAppointmentModal> {
 
   @override
   Widget build(BuildContext context) {
-    horaFormatada = "${timeSelected.hour >= 10 ? timeSelected.hour.toString() : "0${timeSelected.hour}"}:${timeSelected.minute >= 10 ? timeSelected.minute.toString() : "0${timeSelected.minute}"}";
+    horaFormatada =
+        "${timeSelected.hour >= 10 ? timeSelected.hour.toString() : "0${timeSelected.hour}"}:${timeSelected.minute >= 10 ? timeSelected.minute.toString() : "0${timeSelected.minute}"}";
 
     return AlertDialog(
       backgroundColor: Colors.white,
@@ -108,44 +110,38 @@ class _UpdateAppointmentModalState extends State<UpdateAppointmentModal> {
         ],
       ),
       actions: [
-        TextButton(
-          child: const Text("Cancelar"),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        TextButton(
-          child: const Text("Adicionar"),
-          onPressed: () async {
-            Appointment agendamento = Appointment(
-              widget.agendamento.id,
-              '',
-              dateSelected.toString(),
-              DateFormat.jm().format(
-                DateTime(
-                  dateSelected.year,
-                  dateSelected.month,
-                  dateSelected.day,
-                  timeSelected.hour,
-                  timeSelected.minute,
-                ),
+        button(context, 'Cancelar', () {
+          Navigator.pop(context);
+        }),
+        button(context, 'Atualizar', () async {
+          Appointment agendamento = Appointment(
+            widget.agendamento.id,
+            '',
+            dateSelected.toString(),
+            DateFormat.jm().format(
+              DateTime(
+                dateSelected.year,
+                dateSelected.month,
+                dateSelected.day,
+                timeSelected.hour,
+                timeSelected.minute,
               ),
-            );
+            ),
+          );
 
-            bool res = await updateAgendamento(agendamento);
+          bool res = await updateAgendamento(agendamento);
 
-            if (!mounted) return;
-            if (res) {
-              ScaffoldMessenger.of(context).showSnackBar(mensagemSnackBar(
-                  context, 'Agendamento atualizado com sucesso!'));
+          if (!mounted) return;
+          if (res) {
+            ScaffoldMessenger.of(context).showSnackBar(mensagemSnackBar(
+                context, 'Agendamento atualizado com sucesso!'));
 
-              Navigator.pop(context);
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(mensagemSnackBar(
-                  context, 'Ocorreu um erro! Tente novamente mais tarde.'));
-            }
-          },
-        ),
+            Navigator.pop(context);
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(mensagemSnackBar(
+                context, 'Ocorreu um erro! Tente novamente mais tarde.'));
+          }
+        }),
       ],
     );
   }

@@ -1,5 +1,7 @@
 import 'package:flutter/Material.dart';
 import 'package:intl/intl.dart';
+import 'package:leilabeleiza/components/aviso.dart';
+import 'package:leilabeleiza/components/button.dart';
 import 'package:leilabeleiza/components/mensagem_SnackBar.dart';
 import 'package:leilabeleiza/components/time_modal.dart';
 import '../data/check_appointments.dart';
@@ -28,10 +30,12 @@ class _AddAppointmentState extends State<AddAppointment> {
 
   @override
   Widget build(BuildContext context) {
-    String dataFormatada = DateFormat('d/M/y').format(_dateSelected!).toString();
+    String dataFormatada =
+        DateFormat('d/M/y').format(_dateSelected!).toString();
     int hora = _timeSelected!.hour;
     int minuto = _timeSelected!.minute;
-    String horaFormatada = "${hora >= 10 ? hora.toString() : "0$hora"}:${minuto>= 10 ? minuto.toString() : "0$minuto"}";
+    String horaFormatada =
+        "${hora >= 10 ? hora.toString() : "0$hora"}:${minuto >= 10 ? minuto.toString() : "0$minuto"}";
 
     return AlertDialog(
       backgroundColor: Colors.white,
@@ -137,15 +141,13 @@ class _AddAppointmentState extends State<AddAppointment> {
         ],
       ),
       actions: [
-        TextButton(
-          child: const Text("Cancelar"),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        TextButton(
-          child: const Text("Adicionar"),
-          onPressed: () async {
+        button(context, 'Cancelar', () {
+          Navigator.pop(context);
+        }),
+        button(context, 'Adicionar', () async {
+          if (_tituloController.text.isEmpty) {
+            aviso(context, 'Digite um título para o serviço!');
+          } else {
             Appointment agendamento = Appointment(
               null,
               _tituloController.text,
@@ -165,67 +167,31 @@ class _AddAppointmentState extends State<AddAppointment> {
 
             if (check != null) {
               await showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: const Text(
-                        "Aviso",
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      content: Text(
-                        "Parece que você está tentando adicionar um serviço, mas já existe um marcado para menos de 1 semana. Deseja mudar a data do serviço atual para o já existente?",
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Theme.of(context).colorScheme.primary),
-                        textAlign: TextAlign.justify,
-                      ),
-                      actions: [
-                        TextButton(
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                            ),
-                            side: MaterialStateProperty.all<BorderSide>(
-                              BorderSide(
-                                  color: Theme.of(context).colorScheme.primary),
-                            ),
-                          ),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Text(
-                            "Não",
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ),
-                        TextButton(
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                            ),
-                            side: MaterialStateProperty.all<BorderSide>(
-                              BorderSide(
-                                  color: Theme.of(context).colorScheme.primary),
-                            ),
-                          ),
-                          onPressed: () {
-                            agendamento = check;
-                            Navigator.pop(context);
-                          },
-                          child: const Text(
-                            "Sim",
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ),
-                      ],
-                    );
-                  });
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: const Text(
+                      "Aviso",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    content: Text(
+                      "Você já tem um serviço agendado para a mesma semana. Deseja atualizar a data e horário para o mesmo dia?",
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary),
+                      textAlign: TextAlign.justify,
+                    ),
+                    actions: [
+                      button(context, 'Não', () {
+                        Navigator.pop(context);
+                      }),
+                      button(context, 'Sim', () {
+                        agendamento = check;
+                        Navigator.pop(context);
+                      }),
+                    ],
+                  );
+                },
+              );
             }
 
             bool res = await saveAgendamento(
@@ -244,8 +210,8 @@ class _AddAppointmentState extends State<AddAppointment> {
               ScaffoldMessenger.of(context).showSnackBar(mensagemSnackBar(
                   context, 'Ocorreu um erro! Tente novamente mais tarde.'));
             }
-          },
-        ),
+          }
+        })
       ],
     );
   }
