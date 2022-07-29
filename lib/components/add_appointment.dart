@@ -1,8 +1,8 @@
-import 'package:flutter/Material.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:leilabeleiza/components/aviso.dart';
 import 'package:leilabeleiza/components/button.dart';
-import 'package:leilabeleiza/components/mensagem_SnackBar.dart';
+import 'package:leilabeleiza/components/mensagem_snackbar.dart';
 import 'package:leilabeleiza/components/time_modal.dart';
 import '../data/check_appointments.dart';
 import '../data/save_agendamento.dart';

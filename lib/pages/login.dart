@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:leilabeleiza/components/mensagem_SnackBar.dart';
+import 'package:leilabeleiza/components/mensagem_snackbar.dart';
 import '../data/sign_in.dart';
 import '../models/cliente.dart';
 

@@ -1,4 +1,3 @@
-import 'package:flutter/Material.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:leilabeleiza/components/time_modal.dart';
@@ -7,7 +6,7 @@ import '../data/update_agendamento.dart';
 import '../models/agendamento.dart';
 import 'button.dart';
 import 'date_modal.dart';
-import 'mensagem_SnackBar.dart';
+import 'mensagem_snackbar.dart';
 
 class UpdateAppointmentModal extends StatefulWidget {
   final Appointment agendamento;

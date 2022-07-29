@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:leilabeleiza/data/sign_in.dart';
-import '../components/mensagem_SnackBar.dart';
+import '../components/mensagem_snackbar.dart';
 import '../data/cadastrar_cliente.dart';
 import '../models/cliente.dart';
 
